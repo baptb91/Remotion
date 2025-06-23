@@ -34,7 +34,7 @@ jobs:
       - name: Render video
         run: |
           npx remotion render src/index.tsx MyComp out/video.mp4 \
-            --props='{"beats":${{ github.event.inputs.beats},"audioDuration":${{ github.event.inputs.audio_duration}},"audioSrc":"audio.mp3"}'
+            --props='{"beats":${{ github.event.inputs.beats }},"audioDuration":"${{ github.event.inputs.audio_duration }}","audioSrc":"audio.mp3"}'
 
       - name: Upload video artifact
         uses: actions/upload-artifact@v3
