@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create public directory
+        run: mkdir -p public
+
       - name: Download audio
         run: curl -L "${{ github.event.inputs.audio_url }}" -o public/audio.mp3
 
