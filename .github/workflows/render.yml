@@ -1,0 +1,43 @@
+name: Render Remotion Video
+
+on:
+  workflow_dispatch:
+    inputs:
+      beats:
+        description: 'Beats (JSON array, ex: [0.5,1.2,2.0])'
+        required: true
+      audio_url:
+        description: 'URL du fichier audio'
+        required: true
+      audio_duration:
+        description: 'Durée audio (secondes)'
+        required: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download audio
+        run: curl -L "${{ github.event.inputs.audio_url }}" -o public/audio.mp3
+
+      - name: Render video
+        run: |
+          npx remotion render src/index.tsx MyComp out/video.mp4 \
+            --props='{"beats":${{ github.event.inputs.beats},"audioDuration":${{ github.event.inputs.audio_duration}},"audioSrc":"audio.mp3"}'
+
+      - name: Upload video artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: rendered-video
+          path: out/video.mp4
