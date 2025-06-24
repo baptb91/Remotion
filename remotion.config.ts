@@ -49,5 +49,9 @@ Config.setConcurrency(1); // Limite la concurrence pour éviter les problèmes d
 Config.setChromiumDisableWebSecurity(true);
 Config.setChromiumHeadlessMode(true);
 
+// Désactiver le téléchargement automatique du navigateur
+Config.setChromiumOpenGlRenderer('egl');
+Config.setChromiumDisableWebSecurity(true);
+
 // Pour le debugging
 Config.setLogLevel('verbose');
