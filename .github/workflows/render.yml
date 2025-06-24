@@ -15,7 +15,15 @@ on:
 jobs:
   render:
     runs-on: ubuntu-latest
+    container:
+      image: node:18
+      options: --user root
     steps:
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y wget gnupg ca-certificates procps libxss1 libgconf-2-4 libxrandr2 libasound2 libpangocairo-1.0-0 libatk1.0-0 libcairo-gobject2 libgtk-3-0 libgdk-pixbuf2.0-0 libxcomposite1 libxcursor1 libxdamage1 libxi6 libxtst6 libnss3 libcups2 libxrandr2 libasound2 libpangocairo-1.0-0 libatk1.0-0 libcairo-gobject2 libdrm2 libxss1 libgbm1
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -28,10 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          # Installation explicite des dépendances TypeScript pour résoudre l'erreur tsx
           npm install -D typescript ts-loader @types/react @types/react-dom
-          # Installation du navigateur Chrome pour Remotion
-          npx @remotion/renderer ensure-browser
 
       - name: Setup Chrome/Browser
         run: |
