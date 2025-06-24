@@ -30,6 +30,17 @@ jobs:
           npm ci
           # Installation explicite des dépendances TypeScript pour résoudre l'erreur tsx
           npm install -D typescript ts-loader @types/react @types/react-dom
+          # Installation du navigateur Chrome pour Remotion
+          npx @remotion/renderer ensure-browser
+
+      - name: Setup Chrome/Browser
+        run: |
+          # Installation manuelle du navigateur
+          npx remotion browser ensure --log=verbose
+          # Alternative si la première commande échoue
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+        continue-on-error: false
 
       - name: Create public directory
         run: mkdir -p public
